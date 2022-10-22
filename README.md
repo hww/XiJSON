@@ -6,23 +6,13 @@
 [![](https://img.shields.io/github/license/hww/XiJSON.svg)](https://github.com/hww/XiJSON/blob/master/LICENSE)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
-![Title Image](Docs/title_image.png)
-
 Simple asstes renaming tool by [hww](https://github.com/hww)
 
 ## Introduction
 
-The tool allows you to select and rename a group of files according to a pattern that can consist of: file name, prefix, suffix, and version or variant number.
+Fast data serialization solution for Unity. Has been used in two commercial products for redemption machines.
 
-Allows you to renumber a series of files by sorting the list of names.
-
-The tool works according to the Studio naming convention, which you can set up through the configuration panel.
-
-![Tool Image](Docs/notes-image.png)
-
-The rules can be configured in the panel (below) or from the C# source code.
-
-![Settings Image](Docs/settings-screenshot.png)
+Uses Unity's built-in JSON serializer, but does simple data sanitization using regular expressions.
 
 ## Install
 
@@ -37,4 +27,7 @@ You can also install via git url by adding this entry in your manifest.json
 "com.hww.xijson": "https://github.com/hww/XiJSON.git#upm"
 ```
 
+## Usage 
+
+For MonoBehaviour, just inherince your class from JsonBehaviour. For ScriptableObject, just inherince from JsonObject.
 
