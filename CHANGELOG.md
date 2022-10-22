@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/hww/XiJSON/compare/v1.0.1...v1.0.2) (2022-10-22)
+
+
+### Bug Fixes
+
+* **code:** Cleaning ([33c62fb](https://github.com/hww/XiJSON/commit/33c62fb03da2eefb9491b8c969287ce954195a10))
+
 ## [1.0.1](https://github.com/hww/XiJSON/compare/v1.0.0...v1.0.1) (2022-10-22)
 
 
