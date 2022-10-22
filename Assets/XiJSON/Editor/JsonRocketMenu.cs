@@ -8,13 +8,13 @@ namespace XiJSON
     public class XiJSONMenu
     {
         // ========================================================================
-        // JsonAsset 
+        // JsonObject 
         // ========================================================================
 
         [MenuItem("Xi/JSON/Set JSON Path")]
         private static void UpdateRelativePath()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
+            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
             for (var i=0; i<objects.Length; i++)
                 objects[i].UpdateRelativePath();
         }
@@ -22,7 +22,7 @@ namespace XiJSON
         [MenuItem("Xi/JSON/Import Resources")]
         private static void ImportData()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
+            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
             foreach (var entry in objects)
                 entry.JsonRead(entry.GetJsonPath(JsonPathTools.UserName));
 
@@ -35,7 +35,7 @@ namespace XiJSON
         [MenuItem("Xi/JSON/Export Resources")]
         private static void ExportData()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
+            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
             foreach (var entry in objects)
                 entry.JsonWrite(entry.GetJsonPath(JsonPathTools.UserName));
 #if UNITY_EDITOR
