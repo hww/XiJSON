@@ -59,7 +59,7 @@ namespace XiJSON
 
         #endregion
 
-        #region JSON Path for serailization
+        #region JSON Serailization
 
 
         ///--------------------------------------------------------------------
@@ -72,16 +72,26 @@ namespace XiJSON
 
         public void Serialize(IArchive archive)
         {
+            var path = string.Empty;
+            if (string.IsNullOrEmpty(relativePath))
+            {
+                Debug.LogError($"JsonObject '{name}' has blank relative path!");
+                path = JsonPathTools.GetProjectFilePath($"{name}.lost.json");
+            }
+            else
+            {
+                path = JsonPathTools.GetProjectFilePath(relativePath);
+            }
             if (archive.IsWriting)
             {
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(this); // save assets also
 #endif
-                archive.Write(this);
+                archive.Write(this, path);
             }
             else
             {
-                archive.Read(this);
+                archive.Read(this, path);
                 IncrementVersion();
             }
         }
@@ -215,14 +225,14 @@ namespace XiJSON
         [Button("Import")]
         private void JsonRead()
         {
-            Serialize(new JsonArchive(EArchiveMode.Reading, this));
+            Serialize(new JsonArchive(EArchiveMode.Reading));
         }
 
         /// <summary>Writing to JSON file this data chunk.</summary>
         [Button("Export")]
         private void JsonWrite()
         {
-            Serialize(new JsonArchive(EArchiveMode.Writing, this));
+            Serialize(new JsonArchive(EArchiveMode.Writing));
         }
 
         #endregion

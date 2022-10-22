@@ -41,10 +41,11 @@ namespace XiJSON
 
         public void Serialize(IArchive archive)
         {
+            var path = JsonPathTools.GetJsonFilePath(this);
             if (archive.IsReading)
-                archive.Read(this);
+                archive.Read(this, path);
             else
-                archive.Write(this);
+                archive.Write(this, path);
         }
 
  
@@ -59,8 +60,8 @@ namespace XiJSON
 #region Tools 
 
         [Button()] void Validate() { OnValidate(); }
-        [Button()] void Import() { Serialize(new JsonArchive(EArchiveMode.Reading, this)); }
-        [Button()] void Export() { Serialize(new JsonArchive(EArchiveMode.Writing, this)); }
+        [Button()] void Import() { Serialize(new JsonArchive(EArchiveMode.Reading)); }
+        [Button()] void Export() { Serialize(new JsonArchive(EArchiveMode.Writing)); }
 
 #endregion
     }
