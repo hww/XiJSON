@@ -1,3 +1,10 @@
+# 1.0.0 (2022-10-22)
+
+
+### Bug Fixes
+
+* **code:** Initial release ([de66d50](https://github.com/hww/XiJSON/commit/de66d50a854cbc9f5aefd7bffeea22015f93f50c))
+
 # [1.1.0](https://github.com/hww/XiRename/compare/v1.0.11...v1.1.0) (2022-10-20)
 
 
