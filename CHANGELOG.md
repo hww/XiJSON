@@ -4,6 +4,14 @@
 ### Bug Fixes
 
 * **code:** Cleaning ([5c3f6ab](https://github.com/hww/XiJSON/commit/5c3f6ab630ceef950b83c96ec2b8f5dc3ce99a2d))
+* **code:** Simplified API with Archive class ([0a43030](https://github.com/hww/XiJSON/commit/0a430307cf4278c56c9e81b3c5f40022684a4d45))
+
+## [1.0.1](https://github.com/hww/XiJSON/compare/v1.0.0...v1.0.1) (2022-10-22)
+
+
+### Bug Fixes
+
+* **code:** Cleaning ([5c3f6ab](https://github.com/hww/XiJSON/commit/5c3f6ab630ceef950b83c96ec2b8f5dc3ce99a2d))
 
 # 1.0.0 (2022-10-22)
 
