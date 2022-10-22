@@ -11,7 +11,7 @@ namespace XiJSON
         IJsonWritable, 
         IJsonPathProvider,
         IHashData,
-        IValidate
+        IValidatable
     {
         #region IHashData
 
@@ -41,7 +41,7 @@ namespace XiJSON
         /// <param name="filePath">Full pathname of the file.</param>
         ///--------------------------------------------------------------------
 
-        public virtual void JsonWrite(string filePath)
+        void IJsonWritable.JsonWrite(string filePath)
         {
             JsonTools.JsonWrite(this, filePath);
         }
@@ -54,7 +54,7 @@ namespace XiJSON
         /// <returns>True if it succeeds, false if it fails.</returns>
         ///--------------------------------------------------------------------
 
-        public virtual bool JsonRead(string filePath)
+        bool IJsonReadable.JsonRead(string filePath)
         {
             return JsonTools.JsonRead(this, filePath);
         }
@@ -67,7 +67,7 @@ namespace XiJSON
         /// <returns>The JSON path.</returns>
         ///--------------------------------------------------------------------
 
-        public virtual string GetJsonPath(string userName = null)
+        string IJsonPathProvider.GetJsonPath(string userName = null)
         {
             return JsonPathTools.GetJsonFilePath(this, userName);
         }
@@ -84,12 +84,10 @@ namespace XiJSON
 
 #region Tools 
 
-        [Button()]
-        void Validate() { OnValidate(); }
-        [Button("Import")]
-        void Import() { JsonRead(GetJsonPath()); }
-        [Button("Export")]
-        void Export() { JsonWrite(GetJsonPath()); }
+        [Button()] void Validate() { OnValidate(); }
+        [Button()] void Import() { JsonRead(GetJsonPath()); }
+        [Button()] void Export() { JsonWrite(GetJsonPath()); }
+
 #endregion
     }
 }
