@@ -32,3 +32,8 @@ You can also install via git url by adding this entry in your manifest.json
 For MonoBehaviour, just inherince your class from JsonBehaviour. For ScriptableObject, just inherince from JsonObject.
 After that the importing and exporting will read and write data to the StreamingAssets folder.
 
+```Bash
+/StreamingAssets/XiJSON/Assets/        // For the all assets
+/StreamingAssets/XiJSON/{SceneName}/   // For a scene with name 
+```
+
