@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 720e924692a8b584baee0e393dc4eb44, type: 3}
-  m_Name: New Json Asset Test
+  m_Name: JsonObjectTest
   m_EditorClassIdentifier: 
-  help: 
-  relativePath: Assets/XiJSON/Examples/Example_01/New Json Asset Test.json
-  integerValue: 0
-  booleanValue: 0
-  floatValue: 0
-  stringValue: Abcd
-  prefab: 
+  info: 
+  relativePath: Assets/XiJSON/Examples/Example_01/JsonObjectTest.json
+  integerValue: 1
+  booleanValue: 1
+  floatValue: 22
+  stringValue: ABC
+  prefabStr: 
+  prefabObj: {fileID: 4978519914277346782, guid: 7f5b7247969fd8c459a17f1f49b946ba, type: 3}

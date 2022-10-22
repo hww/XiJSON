@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using System;
 using System.IO;
@@ -33,27 +33,27 @@ namespace XiJSON
         }
 
         /// <summary>
-        ///     Write to JSON file this data chunk
+        ///     Writing to JSON file this data chunk
         /// </summary>
         /// <param name="filePath"></param>
         public static void JsonWrite([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
             // write to file
-            Debug.Log($"Write JSON '{filePath}'");
+            Debug.Log($"Writing JSON '{filePath}'");
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             var jsonText = ToJson(obj, true);
             File.WriteAllText(filePath, jsonText);
         }
 
         /// <summary>
-        ///     Read from JSON file this data chunk
+        ///     Reading from JSON file this data chunk
         /// </summary>
         /// <param name="filePath"></param>
         public static bool JsonRead([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
-            Debug.Log("Read JSON " + filePath);
+            Debug.Log("Reading JSON " + filePath);
             if (File.Exists(filePath))
             {
                 var jsonText = File.ReadAllText(filePath);
@@ -68,7 +68,7 @@ namespace XiJSON
         }
 
         /// <summary>
-        ///     Write to JSON file this data chunk
+        ///     Writing to JSON file this data chunk
         /// </summary>
         /// <param name="filePath"></param>
         public static void JsonWriteHashable([NotNull] object obj, [NotNull] string filePath)
@@ -83,14 +83,14 @@ namespace XiJSON
             // save to field
             hashDataInterface.SetHashData(HashTools.StringToSHA(dataString));
             // write to file
-            Debug.Log("Write JSON " + filePath);
+            Debug.Log("Writing JSON " + filePath);
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             var jsonText = ToJson(obj, true);
             File.WriteAllText(filePath, jsonText);
         }
 
         /// <summary>
-        ///     Read from JSON file this data chunk
+        ///     Reading from JSON file this data chunk
         /// </summary>
         /// <param name="filePath"></param>
         public static bool JsonReadHashable([NotNull] object obj, [NotNull] string filePath)
@@ -98,7 +98,7 @@ namespace XiJSON
             Debug.Assert(filePath != null);
             var hashDataInterface = obj as IHashData;
             Debug.Assert(hashDataInterface != null);
-            Debug.Log("Read JSON " + filePath);
+            Debug.Log("Reading JSON " + filePath);
             var text = File.ReadAllText(filePath);
             JsonUtility.FromJsonOverwrite(text, obj);
             // remember loaded SHA

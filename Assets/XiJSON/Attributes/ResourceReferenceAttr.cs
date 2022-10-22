@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using System;
 
