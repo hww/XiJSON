@@ -23,8 +23,9 @@ namespace XiJSON
         private static void ImportData()
         {
             var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
+            var archive = new JsonArchive(EArchiveMode.Reading);
             foreach (var entry in objects)
-                entry.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
+                entry.Serialize(archive);
 
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
@@ -36,8 +37,9 @@ namespace XiJSON
         private static void ExportData()
         {
             var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
+            var archive = new JsonArchive(EArchiveMode.Writing);
             foreach (var entry in objects)
-                entry.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
+                entry.Serialize(archive);
 
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
@@ -54,8 +56,9 @@ namespace XiJSON
         private static void ImportSceneData()
         {
             var objects = Object.FindObjectsOfType<JsonBehaviour>();
+            var archive = new JsonArchive(EArchiveMode.Reading);
             foreach (var entry in objects)
-                entry.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
+                entry.Serialize(archive);
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -66,8 +69,9 @@ namespace XiJSON
         private static void ExportSceneData()
         {
             var objects = Object.FindObjectsOfType<JsonBehaviour>();
+            var archive = new JsonArchive(EArchiveMode.Writing);
             foreach (var entry in objects)
-                entry.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
+                entry.Serialize(archive);
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

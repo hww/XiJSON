@@ -15,7 +15,7 @@ namespace VARP.JSON.Editor
     /// <typeparam name="T">The type of class to edit with this editor.</typeparam>
     ///------------------------------------------------------------------------
 
-    public class BaseJsonEditor<T> : UnityEditor.Editor where T : MonoBehaviour
+    public class TJsonBehaviourEditor<T> : UnityEditor.Editor where T : MonoBehaviour
     {
         /// <summary>The head image.</summary>
         private Texture2D headImage;
@@ -112,11 +112,12 @@ namespace VARP.JSON.Editor
 
         private void Export()
         {
+            var archive = new JsonArchive(EArchiveMode.Writing);
             for (var i = 0; i < components.Length; i++)
             {
                 var entry = components[i];
                 if (entry is IJsonSerializable so)
-                    so.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
+                    so.Serialize(archive);
             }
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
@@ -132,11 +133,12 @@ namespace VARP.JSON.Editor
 
         private void Import(string userName)
         {
+            var arvhive = new JsonArchive(EArchiveMode.Reading);
             for (var i = 0; i<components.Length; i++)
             {
                 var entry = components[i];
                 if (entry is IJsonSerializable so)
-                    so.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
+                    so.Serialize(arvhive);
             }
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();

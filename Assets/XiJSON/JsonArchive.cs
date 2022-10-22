@@ -13,17 +13,6 @@ namespace XiJSON
         /// <summary>The mode.</summary>
         private EArchiveMode _mode;
 
-        /// <summary>Full pathname of the file.</summary>
-        private string _path;
-
-        ///--------------------------------------------------------------------
-        /// <summary>Gets the full pathname of the file.</summary>
-        ///
-        /// <value>The full pathname of the file.</value>
-        ///--------------------------------------------------------------------
-
-        public string Path => _path;
-
         ///--------------------------------------------------------------------
         /// <summary>Gets a value indicating whether this object is writing.</summary>
         ///
@@ -45,34 +34,12 @@ namespace XiJSON
         /// <summary>Constructor.</summary>
         ///
         /// <param name="mode">The mode.</param>
-        /// <param name="mb">  The megabytes.</param>
         ///--------------------------------------------------------------------
 
-        public JsonArchive(EArchiveMode mode, MonoBehaviour mb)
+        public JsonArchive(EArchiveMode mode)
         {
             _mode = mode;
-            _path = JsonPathTools.GetJsonFilePath(mb);
-        }
-
-        ///--------------------------------------------------------------------
-        /// <summary>Constructor.</summary>
-        ///
-        /// <param name="mode">The mode.</param>
-        /// <param name="jo">  The jo.</param>
-        ///--------------------------------------------------------------------
-
-        public JsonArchive(EArchiveMode mode, JsonObject jo)
-        {
-            _mode = mode;
-            if (string.IsNullOrEmpty(jo.relativePath))
-            {
-                Debug.LogError($"JsonObject '{jo.name}' has blank relative path!");
-                _path = JsonPathTools.GetProjectFilePath($"{jo.name}.lost.json");
-            }
-            else
-            {
-                _path = JsonPathTools.GetProjectFilePath(jo.relativePath);
-            }
+ 
         }
 
         ///--------------------------------------------------------------------
@@ -84,10 +51,10 @@ namespace XiJSON
         /// <param name="jso">The jso to write.</param>
         ///--------------------------------------------------------------------
 
-        public void Write(object jso)
+        public void Write(object jso, string path)
         {
             if (IsWriting)
-                JsonTools.JsonWrite(jso, _path);
+                JsonTools.JsonWrite(jso, path);
             else
                 throw new System.Exception();
         }
@@ -101,10 +68,10 @@ namespace XiJSON
         /// <param name="jso">The jso to read.</param>
         ///--------------------------------------------------------------------
 
-        public void Read(object jso)
+        public void Read(object jso, string path)
         {
             if (IsReading)
-                JsonTools.JsonRead(jso, _path);
+                JsonTools.JsonRead(jso, path);
             else
                 throw new System.Exception();
         }
