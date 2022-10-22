@@ -1,8 +1,9 @@
-﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using UnityEditor;
 using UnityEngine;
 using XiCore.StringTools;
+using XiJSON;
 using XiJSON.Interfaces;
 using XiJSON.Tools;
 
@@ -14,26 +15,26 @@ namespace VARP.JSON.Editor
     /// <typeparam name="T">The type of class to edit with this editor.</typeparam>
     ///------------------------------------------------------------------------
 
-    public class BaseJsonEditor<T> : UnityEditor.Editor where T : Component
+    public class BaseJsonEditor<T> : UnityEditor.Editor where T : MonoBehaviour
     {
         /// <summary>The head image.</summary>
         private Texture2D headImage;
         /// <summary>Collection of scripts.</summary>
-        private T[] scriptsCollection;
+        private T[] components;
 
         /// <summary>Initialize JSON editor.</summary>
         protected void InitBaseJsonGUI()
         {
             var monoObjects = targets;
-            scriptsCollection = new T[monoObjects.Length];
-            for (var i = 0; i < monoObjects.Length; i++) scriptsCollection[i] = monoObjects[i] as T;
+            components = new T[monoObjects.Length];
+            for (var i = 0; i < monoObjects.Length; i++) components[i] = monoObjects[i] as T;
             headImage = AssetDatabase.LoadAssetAtPath<Texture2D>(GetHeadImagePath());
         }
 
         /// <summary>Deinitialize JSON editor.</summary>
         protected void DeinitBaseJsonGUI()
         {
-            scriptsCollection = null;
+            components = null;
         }
 
         /// <summary>Draw GUI of JSON editor.</summary>
@@ -82,18 +83,18 @@ namespace VARP.JSON.Editor
             if (GUILayout.Button("Make Unique Name"))
             {
                 var allObjects = GameObject.FindObjectsOfType<T>();
-                for (var i = 0; i < scriptsCollection.Length; i++)
+                for (var i = 0; i < components.Length; i++)
                 {
-                    var entry = scriptsCollection[i];
+                    var entry = components[i];
                     UniqueNameTools.MakeUniqueName(allObjects, entry.gameObject);
                 }
             }
 
             if (GUILayout.Button("Decamelize"))
             {
-                for (var i = 0; i < scriptsCollection.Length; i++)
+                for (var i = 0; i < components.Length; i++)
                 {
-                    var entry = scriptsCollection[i];
+                    var entry = components[i];
                     entry.name = Humanizer.Decamelize(entry.name);
                 }
             }
@@ -109,13 +110,13 @@ namespace VARP.JSON.Editor
         /// <param name="userName">Name of the user.</param>
         ///--------------------------------------------------------------------
 
-        private void Export(string userName)
+        private void Export()
         {
-            for (var i = 0; i < scriptsCollection.Length; i++)
+            for (var i = 0; i < components.Length; i++)
             {
-                var entry = scriptsCollection[i];
-                if (entry is IJsonPathProvider provider && entry is IJsonWritable writable)
-                    writable.JsonWrite(provider.GetJsonPath(userName));
+                var entry = components[i];
+                if (entry is IJsonSerializable so)
+                    so.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
             }
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
@@ -131,11 +132,11 @@ namespace VARP.JSON.Editor
 
         private void Import(string userName)
         {
-            for (var i = 0; i<scriptsCollection.Length; i++)
+            for (var i = 0; i<components.Length; i++)
             {
-                var entry = scriptsCollection[i];
-                if (entry is IJsonPathProvider provider && entry is IJsonReadable readable)
-                    readable.JsonRead(provider.GetJsonPath(userName));
+                var entry = components[i];
+                if (entry is IJsonSerializable so)
+                    so.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
             }
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();

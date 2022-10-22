@@ -2,9 +2,9 @@
 
 namespace XiJSON.Interfaces
 {
-    public interface IHashData
+    public interface IValidatable
     {
-        void SetHashData(string hash);
-        string GetHashData();
+        /// <summary>Executes the 'validate' action.</summary>
+        void OnValidate();
     }
 }

@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using UnityEditor;
 using UnityEngine;
@@ -24,7 +24,7 @@ namespace XiJSON
         {
             var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
             foreach (var entry in objects)
-                entry.JsonRead(entry.GetJsonPath(JsonPathTools.UserName));
+                entry.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
 
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
@@ -37,7 +37,8 @@ namespace XiJSON
         {
             var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
             foreach (var entry in objects)
-                entry.JsonWrite(entry.GetJsonPath(JsonPathTools.UserName));
+                entry.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
+
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -45,25 +46,6 @@ namespace XiJSON
         }
 
 
-#if USE_SELECTED_RESOURCE_FEATURE
-        [MenuItem("Rocket/JSON/Export Selected Resources")]
-        private static void ExportSelectedData()
-        {
-            var objects = Selection.objects;
-            foreach (var entry in objects)
-                if (entry is JsonResource)
-                    (entry as JsonResource).JsonWrite(entry.GetJsonPath(JsonPathTools.UserName));
-        }
-
-        [MenuItem("Rocket/JSON/Export Selected Resources")]
-        private static void ExportSelectedDataTemp()
-        {
-            var objects = Selection.objects;
-            foreach (var entry in objects)
-                if (entry is JsonResource)
-                    (entry as JsonResource).JsonWrite(entry.GetJsonPath(JsonPathTools.TempUserName));
-        }
-#endif
         // ========================================================================
         // JsonBehaviour 
         // ========================================================================
@@ -73,7 +55,7 @@ namespace XiJSON
         {
             var objects = Object.FindObjectsOfType<JsonBehaviour>();
             foreach (var entry in objects)
-                entry.JsonRead(entry.GetJsonPath(JsonPathTools.UserName));
+                entry.Serialize(new JsonArchive(EArchiveMode.Reading, entry));
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -85,7 +67,7 @@ namespace XiJSON
         {
             var objects = Object.FindObjectsOfType<JsonBehaviour>();
             foreach (var entry in objects)
-                entry.JsonWrite(entry.GetJsonPath(JsonPathTools.UserName));
+                entry.Serialize(new JsonArchive(EArchiveMode.Writing, entry));
 #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -93,7 +75,7 @@ namespace XiJSON
         }
 
         [MenuItem("Xi/JSON/Validate Selected", false, 1)]
-        private static void BakeSelectedSObjects()
+        private static void ValidateSelected()
         {
             var objects = Selection.objects;
             foreach (var o in objects)
@@ -106,7 +88,7 @@ namespace XiJSON
         }
 
         [MenuItem("Xi/JSON/Validate All", false, 1)]
-        private static void BakeAllSObjects()
+        private static void ValidateAll()
         {
             var objects = Object.FindObjectsOfType<JsonBehaviour>();
             foreach (var baseBehaviour in objects) baseBehaviour?.OnValidate();

@@ -1,33 +1,44 @@
-/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace XiJSON.Tools
 {
+    /// <summary>A unique name tools helps to build unique name for objects.</summary>
     public static class UniqueNameTools
     {
+        /// <summary>The separators.</summary>
+        private static string kSeparators = " -_";
+
+        /// <summary>(Immutable) identifier for the maximum object.</summary>
         private const int MaxObjectId = 999;
-        static Dictionary<string, UnityEngine.Object> allGuids = new Dictionary<string, UnityEngine.Object> ();
+
+        /// <summary>All list of all comparable objects to find unique name for.</summary>
+        static Dictionary<string, UnityEngine.Object> sObjectsList = new Dictionary<string, UnityEngine.Object> ();
 
         ///--------------------------------------------------------------------
         /// <summary>Validates the names.</summary>
         ///
-        /// <param name="objects">The objects.</param>
-        /// <param name="exclude">(Optional) The exclude.</param>
+        /// <param name="objects">  The objects to validate.</param>
+        /// <param name="exclude">      (Optional) The object to exclude.</param>
+        /// <param name="showError">    (Optional) True to show, false to
+        ///                             hide the error.</param>
+        ///
+        /// <returns>True if all objects have unique name, false if it is not.</returns>
         ///--------------------------------------------------------------------
 
         private static bool ValidateNames(UnityEngine.Object[] objects, GameObject exclude = null, bool showError = false)
         {
             var result = true;
-            allGuids.Clear();
+            sObjectsList.Clear();
             for (var i = 0; i < objects.Length; i++)
             {
                 var obj = objects[i];
                 if (obj == exclude)
                     continue;
                 UnityEngine.Object existingObject;
-                if (allGuids.TryGetValue(obj.name, out existingObject))
+                if (sObjectsList.TryGetValue(obj.name, out existingObject))
                 {
                     // Object already exists rename existing object
                     if (existingObject != null)
@@ -39,23 +50,23 @@ namespace XiJSON.Tools
                 }
                 else
                 {
-                    allGuids[obj.name] = obj;
+                    sObjectsList[obj.name] = obj;
                 }
             }
-            allGuids.Clear();
+            sObjectsList.Clear();
             return result;
         }
 
         ///--------------------------------------------------------------------
         /// <summary>Makes unique name of object in the group.</summary>
         ///
-        /// <param name="objects">       The objects.</param>
+        /// <param name="objects">       The objects to prevent their names.</param>
         /// <param name="objectToRename">The object to rename.</param>
         ///--------------------------------------------------------------------
 
         public static void MakeUniqueName(UnityEngine.Object[] objects, GameObject objectToRename)
         {
-            allGuids.Clear();
+            sObjectsList.Clear();
             // Display the error if there are non unique names
             ValidateNames(objects, objectToRename, true);
             var nameOnly = GetNameWithoutId(objectToRename.name);
@@ -64,14 +75,14 @@ namespace XiJSON.Tools
             {
                 UnityEngine.Object existingObject = null;
                 var nameWithId = GetNameWithId(nameOnly, id);
-                if (allGuids.TryGetValue(nameWithId, out existingObject))
+                if (sObjectsList.TryGetValue(nameWithId, out existingObject))
                     continue;
                 objectToRename.name = nameWithId;
-                allGuids.Clear();
+                sObjectsList.Clear();
                 return;
             }
             Debug.LogError($"Can't build unique name for object '{objectToRename.name}'", objectToRename);
-            allGuids.Clear();
+            sObjectsList.Clear();
         }
 
         ///--------------------------------------------------------------------
@@ -113,7 +124,7 @@ namespace XiJSON.Tools
             for (var i = digitStartAt - 1; i >= 0; i--)
             {
                 var c = name[i];
-                if (c == '-')
+                if (kSeparators.Contains(c))
                     continue;
                 return name.Substring(0, i + 1);
             }
@@ -155,7 +166,7 @@ namespace XiJSON.Tools
             for (var i = digitStartAt - 1; i >= 0; i--)
             {
                 var c = name[i];
-                if (c == '-')
+                if (kSeparators.Contains(c))
                     continue;
                 return name.Substring(0, i + 1);
             }

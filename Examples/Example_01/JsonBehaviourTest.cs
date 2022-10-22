@@ -1,5 +1,7 @@
-﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
+
+using UnityEngine;
 
 namespace XiJSON.Demo
 {
@@ -11,6 +13,7 @@ namespace XiJSON.Demo
         public string stringValue;
 
         [ResourceReferenceAttr]
-        public string prefab;
+        public string prefabStr;
+        public GameObject prefabObj;
     }
 }

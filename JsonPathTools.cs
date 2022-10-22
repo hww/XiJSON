@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+﻿/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using System;
 using System.IO;
@@ -18,7 +18,7 @@ namespace XiJSON
         /// </summary>
         /// <param name="resource"></param>
         /// <returns></returns>
-        public static string GetJsonFilePath(JsonAsset resource, bool relativePath = false, string userName = null)
+        public static string GetJsonFilePath(JsonObject resource, bool relativePath = false, string userName = null)
         {
 #if UNITY_EDITOR
             var path = AssetDatabase.GetAssetPath(resource);
@@ -82,7 +82,7 @@ namespace XiJSON
         }
 
         private const string SCENE_PATH_FORMAT = "{0}/{1}/{2}/{3}/{4}";
-        private const string DEFAULT_CONFIG_FOLDER = "config";
+        private const string DEFAULT_CONFIG_FOLDER = "XiJSON";
 
         private static string configFolder;
         public static string ConfigFolder

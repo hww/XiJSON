@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Read lisense file */
+/* Copyright (c) 2018 Valeriya Pudova (hww.github.io) Reading lisense file */
 
 using XiJSON.Interfaces;
 using UnityEngine;
@@ -7,9 +7,7 @@ using NaughtyAttributes;
 namespace XiJSON
 {
     public class JsonBehaviour : MonoBehaviour, 
-        IJsonReadable, 
-        IJsonWritable, 
-        IJsonPathProvider,
+        IJsonSerializable,
         IHashData,
         IValidatable
     {
@@ -33,49 +31,25 @@ namespace XiJSON
 
         #endregion
 
-        #region IJsonReadable, IJsonWritable
+        #region IJsonSerializable
 
         ///--------------------------------------------------------------------
-        /// <summary>Write to JSON file this data chunk.</summary>
+        /// <summary>Serialize this object to the given stream.</summary>
         ///
-        /// <param name="filePath">Full pathname of the file.</param>
+        /// <param name="archive">The archive.</param>
         ///--------------------------------------------------------------------
 
-        void IJsonWritable.JsonWrite(string filePath)
+        public void Serialize(IArchive archive)
         {
-            JsonTools.JsonWrite(this, filePath);
+            if (archive.IsReading)
+                archive.Read(this);
+            else
+                archive.Write(this);
         }
 
-        ///--------------------------------------------------------------------
-        /// <summary>Read from JSON file this data chunk.</summary>
-        ///
-        /// <param name="filePath">The path in source folder.</param>
-        ///
-        /// <returns>True if it succeeds, false if it fails.</returns>
-        ///--------------------------------------------------------------------
-
-        bool IJsonReadable.JsonRead(string filePath)
-        {
-            return JsonTools.JsonRead(this, filePath);
-        }
-
-        ///--------------------------------------------------------------------
-        /// <summary>Get resource path.</summary>
-        ///
-        /// <param name="userName">(Optional) Name of the user.</param>
-        ///
-        /// <returns>The JSON path.</returns>
-        ///--------------------------------------------------------------------
-
-        string IJsonPathProvider.GetJsonPath(string userName = null)
-        {
-            return JsonPathTools.GetJsonFilePath(this, userName);
-        }
-        
  
 #endregion
 
-        [Button()]
         public virtual void OnValidate()
         {
             
@@ -85,8 +59,8 @@ namespace XiJSON
 #region Tools 
 
         [Button()] void Validate() { OnValidate(); }
-        [Button()] void Import() { JsonRead(GetJsonPath()); }
-        [Button()] void Export() { JsonWrite(GetJsonPath()); }
+        [Button()] void Import() { Serialize(new JsonArchive(EArchiveMode.Reading, this)); }
+        [Button()] void Export() { Serialize(new JsonArchive(EArchiveMode.Writing, this)); }
 
 #endregion
     }
