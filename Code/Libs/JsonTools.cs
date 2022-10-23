@@ -10,17 +10,27 @@ using XiJSON.Interfaces;
 
 namespace XiJSON
 {
+    // Class: JsonTools
+    //
+    // A JSON tools.
+
     public static class JsonTools
     {
         private static readonly Regex regexp1 = new Regex("(,)(\\s*})");
         private static readonly Regex regexp2 = new Regex("{(\\s*)(,)");
 
-        /// <summary>
-        ///     Convert object to JSON string. Remove not exportable data.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="prettyPrint"></param>
-        /// <returns></returns>
+        public static bool WithHashData;
+
+        // Function: ToJson
+        //
+        // Converts this object to a JSON.
+        //
+        // Param:
+        // obj -          Object to serialize.
+        // prettyPrint -  True to pretty print.
+        //
+        // Returns: The given data converted to a string.
+
         public static string ToJson(object obj, bool prettyPrint)
         {
             //Debug.Assert(prettyPrint, "FIXME! It does not work for non pretty print");
@@ -32,10 +42,14 @@ namespace XiJSON
             return jsonText;
         }
 
-        /// <summary>
-        ///     Writing to JSON file this data chunk
-        /// </summary>
-        /// <param name="filePath"></param>
+        // Function: JsonWrite
+        //
+        // JSON write object to file.
+        //
+        // Param:
+        // obj -       Object to serialize.
+        // filePath -  The file path.
+
         public static void JsonWrite([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
@@ -46,10 +60,16 @@ namespace XiJSON
             File.WriteAllText(filePath, jsonText);
         }
 
-        /// <summary>
-        ///     Reading from JSON file this data chunk
-        /// </summary>
-        /// <param name="filePath"></param>
+        // Function: JsonRead
+        //
+        // JSON read.
+        //
+        // Param:
+        // obj -       Object to read.
+        // filePath -  The file path.
+        //
+        // Returns: True if it succeeds, false if it fails.
+
         public static bool JsonRead([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
@@ -67,21 +87,25 @@ namespace XiJSON
             return false;
         }
 
-        /// <summary>
-        ///     Writing to JSON file this data chunk
-        /// </summary>
-        /// <param name="filePath"></param>
+        // Function: JsonWriteHashable
+        //
+        // JSON write hashable.
+        //
+        // Param:
+        // obj -       Object to write file.
+        // filePath -  The File path.
+
         public static void JsonWriteHashable([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
-            var hashDataInterface = obj as IHashData;
+            var hashDataInterface = obj as IHashable;
             Debug.Assert(hashDataInterface != null);
             // make hash data empty for generating new hash value
-            hashDataInterface.SetHashData(string.Empty);
+            hashDataInterface.HashData = string.Empty;
             // save to string
             var dataString = JsonUtility.ToJson(obj, true);
             // save to field
-            hashDataInterface.SetHashData(HashTools.StringToSHA(dataString));
+            hashDataInterface.HashData = HashTools.StringToSHA(dataString);
             // write to file
             Debug.Log("Writing JSON " + filePath);
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
@@ -89,36 +113,47 @@ namespace XiJSON
             File.WriteAllText(filePath, jsonText);
         }
 
-        /// <summary>
-        ///     Reading from JSON file this data chunk
-        /// </summary>
-        /// <param name="filePath"></param>
+        // Function: JsonReadHashable
+        //
+        // JSON read hashable.
+        //
+        // Param:
+        // obj -       The object. This cannot be null.
+        // filePath -  The file path.
+        //
+        // Returns: True if it succeeds, false if it fails.
+
         public static bool JsonReadHashable([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
-            var hashDataInterface = obj as IHashData;
+            var hashDataInterface = obj as IHashable;
             Debug.Assert(hashDataInterface != null);
             Debug.Log("Reading JSON " + filePath);
             var text = File.ReadAllText(filePath);
             JsonUtility.FromJsonOverwrite(text, obj);
             // remember loaded SHA
-            var readHashData = hashDataInterface.GetHashData();
+            var readHashData = hashDataInterface.HashData;
             // now reset hash and calculate new SHA
-            hashDataInterface.SetHashData(string.Empty);
+            hashDataInterface.HashData = string.Empty;
             // save to string
             var dataString = ToJson(obj, true);
-            hashDataInterface.SetHashData(HashTools.StringToSHA(dataString));
+            if  (WithHashData)
+                hashDataInterface.HashData = HashTools.StringToSHA(dataString);
             if (hashDataInterface.Equals(readHashData))
                 return true;
             Debug.LogError("Corrupted data in " + filePath);
             return false;
         }
-        /// <summary>
-        /// Remove expression contains requested keyword
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="keyword"></param>
-        /// <returns></returns>
+
+        // Function: RemoveInstanceID
+        //
+        // Removes the instance identifier.
+        //
+        // Param:
+        // text -     Source text.
+        // keyword -  The keyword.
+        //
+        // Returns: A result string.
 
         private static string RemoveInstanceID(string text, string keyword)
         {
@@ -130,6 +165,19 @@ namespace XiJSON
             }
             return text;
         }
+
+        // Function: RemoveInstanceID
+        //
+        // Removes the instance identifier.
+        //
+        // Exception:
+        // Exception -  Thrown when an exception error condition occurs.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: A string.
 
         private static string RemoveInstanceID(string text, int index)
         {
@@ -208,6 +256,20 @@ namespace XiJSON
             // remove text
             return text.Remove(left, right - left + 1);
         }
+
+        // Function: SkipArrayAtRight
+        //
+        // Skip array at right.
+        //
+        // Exception:
+        // Exception -  Thrown when an exception error condition occurs.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: An int.
+
         private static int SkipArrayAtRight(string text, int index)
         {
             index = SkipSpacesAtRight(text, index);
@@ -226,6 +288,17 @@ namespace XiJSON
                     throw new System.Exception();
             }
         }
+
+        // Function: SkipCurlePairAtRight
+        //
+        // Skip curle pair at right.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: An int.
+
         private static int SkipCurlePairAtRight(string text, int index)
         {
             while (text[index] != '{')
@@ -234,6 +307,17 @@ namespace XiJSON
                 index++;
             return index + 1;
         }
+
+        // Function: SkipSpacesAtRight
+        //
+        // Skip spaces at right.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: An int.
+
         private static int SkipSpacesAtRight(string text, int index)
         {
             while (index < text.Length && 
@@ -241,6 +325,17 @@ namespace XiJSON
                 index++;
             return index;
         }
+
+        // Function: SkipSpacesAtLeft
+        //
+        // Skip spaces at left.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: An int.
+
         private static int SkipSpacesAtLeft(string text, int index)
         {
             while (index > -1 && 
@@ -248,6 +343,17 @@ namespace XiJSON
                 index--;
             return index;
         }
+
+        // Function: SkipNameAtLeft
+        //
+        // Skip name at left.
+        //
+        // Param:
+        // text -   A source text.
+        // index -  Zero-based index of the.
+        //
+        // Returns: An int.
+
         private static int SkipNameAtLeft(string text, int index)
         {
             index = SkipSpacesAtLeft(text, index);
@@ -255,6 +361,13 @@ namespace XiJSON
                 index--;
             return index;
         }
+
+        // Function: CreateDirectory
+        //
+        // Creates a directory.
+        //
+        // Param:
+        // filePath -  Full pathname of the file.
 
         internal static void CreateDirectory(string filePath)
         {

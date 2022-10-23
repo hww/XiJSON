@@ -2,27 +2,28 @@
 
 using UnityEditor;
 using UnityEngine;
+using XiJSON.Libs;
 
 namespace XiJSON
 {
     public class XiJSONMenu
     {
         // ========================================================================
-        // JsonObject 
+        // JsonAsset 
         // ========================================================================
 
         [MenuItem("Xi/JSON/Set JSON Path")]
         private static void UpdateRelativePath()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
-            for (var i=0; i<objects.Length; i++)
+            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
+            for (var i = 0; i < objects.Length; i++)
                 objects[i].UpdateRelativePath();
         }
 
         [MenuItem("Xi/JSON/Import Resources")]
         private static void ImportData()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
+            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
             var archive = new JsonArchive(EArchiveMode.Reading);
             foreach (var entry in objects)
                 entry.Serialize(archive);
@@ -36,7 +37,7 @@ namespace XiJSON
         [MenuItem("Xi/JSON/Export Resources")]
         private static void ExportData()
         {
-            var objects = Resources.FindObjectsOfTypeAll<JsonObject>();
+            var objects = Resources.FindObjectsOfTypeAll<JsonAsset>();
             var archive = new JsonArchive(EArchiveMode.Writing);
             foreach (var entry in objects)
                 entry.Serialize(archive);
