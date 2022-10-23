@@ -4,6 +4,6 @@ namespace XiJSON.Interfaces
 {
     public interface IJsonSerializable
     {
-        void Serialize(IArchive archive);
+        bool Serialize(IArchive archive);
     }
 }

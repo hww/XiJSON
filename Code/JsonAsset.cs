@@ -66,7 +66,7 @@ namespace XiJSON
         // Param:
         // archive -  The archive.
 
-        public void Serialize(IArchive archive)
+        public bool Serialize(IArchive archive)
         {
             var path = string.Empty;
             if (string.IsNullOrEmpty(relativePath))
@@ -83,12 +83,16 @@ namespace XiJSON
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(this); // save assets also
 #endif
-                archive.Write(this, path);
+                return archive.Write(this, path);
             }
             else
             {
-                archive.Read(this, path);
-                IncrementVersion();
+                if (archive.Read(this, path))
+                {
+                    IncrementVersion();
+                    return true;
+                }
+                return false;
             }
         }
 

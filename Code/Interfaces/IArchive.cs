@@ -6,7 +6,7 @@ namespace XiJSON.Interfaces
     {
         bool IsWriting { get; }
         bool IsReading { get; }
-        void Write(object jso, string path);
-        void Read(object jso, string path);
+        bool Write(object jso, string path);
+        bool Read(object jso, string path);
     }
 }
