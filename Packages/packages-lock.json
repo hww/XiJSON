@@ -22,7 +22,7 @@
         "com.hww.xicore": "https://github.com/hww/XiCore.git#upm",
         "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm"
       },
-      "hash": "12c37ac1443e2cfedc88b9c98d2d51bee4042047"
+      "hash": "60a0fd883545fe6d88304d6cde7051fc02ae203a"
     },
     "com.unity.collab-proxy": {
       "version": "1.17.2",
