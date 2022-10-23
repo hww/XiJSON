@@ -1,0 +1,18 @@
+{
+    "name": "XiJSON.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2ea4ce2a0dab0054d9538e82bd2b412c",
+        "GUID:f88fb04354076c646a4107a491394033",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
