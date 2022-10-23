@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/hww/XiJSON/compare/v1.0.7...v1.0.8) (2022-10-23)
+
+
+### Bug Fixes
+
+* **code:** Refactoring ([f4e3d0d](https://github.com/hww/XiJSON/commit/f4e3d0d3878a122e3ed8fb3a91687eefe5294877))
+
 ## [1.0.7](https://github.com/hww/XiJSON/compare/v1.0.6...v1.0.7) (2022-10-23)
 
 
