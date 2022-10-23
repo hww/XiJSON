@@ -44,7 +44,7 @@ namespace XiJSON
         // Param:
         // archive -  The archive.
 
-        public bool Serialize(IArchive archive)
+        public virtual bool Serialize(IArchive archive)
         {
             var path = JsonPathTools.GetJsonFilePath(this);
             if (archive.IsReading)
