@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using XiJSON.Libs;
 
-namespace XiJSON
+namespace XiJSON.Editor
 {
     public class XiJSONMenu
     {
