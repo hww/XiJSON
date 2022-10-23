@@ -12,7 +12,7 @@ namespace XiJSON.Demo
         public float floatValue;
         public string stringValue;
 
-        [ResourceReferenceAttr]
+        [JsonAssetReference]
         public string prefabStr;
         public GameObject prefabObj;
     }

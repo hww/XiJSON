@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: 
   relativePath: Assets/XiJSON/Examples/Example_01/JsonObjectTest.json
+  hashData: 
   integerValue: 1
   booleanValue: 1
   floatValue: 22

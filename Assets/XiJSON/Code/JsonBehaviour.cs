@@ -3,41 +3,46 @@
 using XiJSON.Interfaces;
 using UnityEngine;
 using NaughtyAttributes;
+using XiJSON.Libs;
 
 namespace XiJSON
 {
     public class JsonBehaviour : MonoBehaviour, 
         IJsonSerializable,
-        IHashData,
+        IHashable,
         IValidatable
     {
-        #region IHashData
+        #region IHashable
 
-#if XI_JSON_USE_HASH_VALUE
-        // Keep hash data for this object
-        [Header("JsonAsset")]
-        [HideInInspector] 
+        // Keep hash data for this object. The featur used for the game
+        // protection.
+
+        [HideInInspector]
         public string hashData;
 
-        public string GetHashData() => hashData;
-        public void SetHashData(string value) => hashData = value;
+        // Property: HashData
+        //
+        // Gets or sets information describing the hash.
+        //
+        // Returns: Information describing the hash.
 
-#else
-        public string GetHashData() => this.GetHashCode().ToString();
-        public void SetHashData(string value) { }
-
-#endif
+        public string HashData
+        {
+            get { return hashData; }
+            set { hashData = value; }
+        }
 
 
         #endregion
 
         #region IJsonSerializable
 
-        ///--------------------------------------------------------------------
-        /// <summary>Serialize this object to the given stream.</summary>
-        ///
-        /// <param name="archive">The archive.</param>
-        ///--------------------------------------------------------------------
+        // Function: Serialize
+        //
+        // Serialize this object to or from given stream.
+        //
+        // Param:
+        // archive -  The archive.
 
         public void Serialize(IArchive archive)
         {
@@ -50,6 +55,11 @@ namespace XiJSON
 
  
 #endregion
+
+        // Function: OnValidate
+        //
+        // Called when the script is loaded or a value is changed in the
+        // inspector (Called in the editor only)
 
         public virtual void OnValidate()
         {

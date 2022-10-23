@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using XiJSON;
 
-[CreateAssetMenu(menuName = "Xi/JSON/Example_01/JsonObjectTest")]
-public class JsonObjectTest : JsonObject
+[CreateAssetMenu(menuName = "Xi/JSON/Example_01/JsonAssetTest")]
+public class JsonAssetTest : JsonAsset
 {
     // Start is called before the first frame update
     public int integerValue;
@@ -12,7 +12,7 @@ public class JsonObjectTest : JsonObject
     public float floatValue;
     public string stringValue;
 
-    [ResourceReferenceAttr]
+    [JsonAssetReference]
     public string prefabStr;
 
     public GameObject prefabObj;

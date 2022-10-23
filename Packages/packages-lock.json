@@ -14,6 +14,16 @@
       "dependencies": {},
       "hash": "f9e0dfafafec3a32cb7f9dc98e59cca70dbea796"
     },
+    "com.hww.xirename": {
+      "version": "https://github.com/hww/XiRename.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.hww.xicore": "https://github.com/hww/XiCore.git#upm",
+        "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm"
+      },
+      "hash": "12c37ac1443e2cfedc88b9c98d2d51bee4042047"
+    },
     "com.unity.collab-proxy": {
       "version": "1.17.2",
       "depth": 0,
