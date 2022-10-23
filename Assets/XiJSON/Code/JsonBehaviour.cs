@@ -44,13 +44,13 @@ namespace XiJSON
         // Param:
         // archive -  The archive.
 
-        public void Serialize(IArchive archive)
+        public bool Serialize(IArchive archive)
         {
             var path = JsonPathTools.GetJsonFilePath(this);
             if (archive.IsReading)
-                archive.Read(this, path);
+                return archive.Read(this, path);
             else
-                archive.Write(this, path);
+                return archive.Write(this, path);
         }
 
  

@@ -50,7 +50,7 @@ namespace XiJSON
         // obj -       Object to serialize.
         // filePath -  The file path.
 
-        public static void JsonWrite([NotNull] object obj, [NotNull] string filePath)
+        public static bool JsonWrite([NotNull] object obj, [NotNull] string filePath)
         {
             Debug.Assert(filePath != null);
             // write to file
@@ -58,6 +58,7 @@ namespace XiJSON
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             var jsonText = ToJson(obj, true);
             File.WriteAllText(filePath, jsonText);
+            return true;
         }
 
         // Function: JsonRead

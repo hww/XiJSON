@@ -53,10 +53,10 @@ namespace XiJSON.Libs
         // object -   The object.
         // filePath -  Full pathname of the file.
 
-        public void Write(object @object, string filePath)
+        public bool Write(object @object, string filePath)
         {
             if (IsWriting)
-                JsonTools.JsonWrite(@object, filePath);
+                return JsonTools.JsonWrite(@object, filePath);
             else
                 throw new System.Exception();
         }
@@ -72,10 +72,10 @@ namespace XiJSON.Libs
         // object -   The object.
         // filePath -  Full pathname of the file.
 
-        public void Read(object @object, string filePath)
+        public bool Read(object @object, string filePath)
         {
             if (IsReading)
-                JsonTools.JsonRead(@object, filePath);
+                return JsonTools.JsonRead(@object, filePath);
             else
                 throw new System.Exception();
         }
