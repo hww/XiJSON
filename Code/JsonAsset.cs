@@ -66,7 +66,7 @@ namespace XiJSON
         // Param:
         // archive -  The archive.
 
-        public bool Serialize(IArchive archive)
+        public virtual bool Serialize(IArchive archive)
         {
             var path = string.Empty;
             if (string.IsNullOrEmpty(relativePath))
